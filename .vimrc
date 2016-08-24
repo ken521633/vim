@@ -155,3 +155,26 @@ if line("$") > 10
   exe "1," . l . "g/Created Time:.*/s/Created Time:.*/Created Time: " .strftime("%Y-%m-%d %T")   
 "这里Create Time: 要和模板中一致  
 endfun 
+autocmd BufNewFile * normal G
+filetype plugin on
+let g:pydiction_location = '~/.vim/tools/pydiction/complete-dict'
+"去空行
+nnoremap <F2> :g/^\s*$/d<CR> 
+"比较文件
+nnoremap <C-F2> :vert diffsplit
+"新建标签
+map <M-F2> :tabnew<CR> 
+"列出当前目录文件
+map <F3> :tabnew .<CR> 
+map <F5> :call CompileRunGcc()<CR>
+func  CompileRunGcc()
+    exec "w"
+    if &filetype=='python'
+      exec "!python %"
+    elseif &filetype=='java'
+      exec "!javac %"
+      exec "!java %>"
+    endif
+endfunc
+set cursorline "突出显示当前行
+set magic "设置魔术
