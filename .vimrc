@@ -121,3 +121,37 @@ lef g:Tlist_File_Fold_Auto_Close = 1    "当光标不在编辑文件里面的时
 let g:Tlist_Use_Right_Window = 1        "在右侧窗口中显示taglist窗口
 let g:Tlist_Enable_Fold_Column = 1      "显示折叠边栏
 nmap <F8>  :TrinityToggleTagList<CR> 
+autocmd InsertLeave * se nocul " 用浅色高亮当前行
+autocmd InsertEnter * se cul " 用浅色高亮当前行
+"set ruler " 显示标尺 
+set showcmd " 输入的命令显示出来，看的清楚些
+set novisualbell " 不要闪烁(不明白)
+set foldenable " 允许折叠
+set foldmethod=manual " 手动折叠
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp936
+set fileencoding=utf-8
+autocmd BufNewFile *.py 0r ~/.vim/templete/vim_python_header
+autocmd BufNewFile *.py ks|call FileName()|'s  
+autocmd BufNewFile *.py ks|call CreatedTime()|'s  
+
+fun FileName()  
+  if line("$") > 10  
+   let l = 10  "这里是字母L 不是数字1   
+  else  
+   let l = line("$")  
+  endif   
+  exe "1," . l . "g/File Name:.*/s/File Name:.*/File Name: " .expand("%")    
+  "最前面是数字1，这里的File Name: 要和模板中一致  
+endfun   
+fun CreatedTime()  
+if line("$") > 10  
+   let l = 10  
+ else  
+   let l = line("$")  
+ endif   
+  exe "1," . l . "g/Created Time:.*/s/Created Time:.*/Created Time: " .strftime("%Y-%m-%d %T")   
+"这里Create Time: 要和模板中一致  
+endfun 
